@@ -1,0 +1,73 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between">
+    <p class="h4">Registro de libros</p>
+    <app-button
+      [title]="'Agregar libro'"
+      buttonType="mat-raised-button"
+      routerLink="/create-book"
+    >
+    </app-button>
+  </div>
+
+  <form [formGroup]="filterForm" (ngSubmit)="filterBooks()">
+    <label for="genre">Género:</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Género</mat-label>
+      <mat-select formControlName="genre">
+        <mat-option [value]="'All'">Todos</mat-option>
+        <mat-option *ngFor="let genre of genres" [value]="genre">
+          {{ genre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <app-button
+      [title]="'Buscar'"
+      buttonType="mat-raised-button"
+      type="submit">
+    </app-button>
+  </form>
+
+  <div class="m-5" *ngIf="listBooks.length > 0">
+    <div *ngFor="let book of listBooks">
+      <mat-card class="example-card m-2">
+        <mat-card-header >
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{book.title}}</mat-card-title>
+          <mat-card-subtitle>{{book.author}}</mat-card-subtitle>
+        </mat-card-header>
+        <img *ngIf="book?.imagePath" width="100%" [src]="getImageUrl(book.imagePath)" alt="Portada del libro {{ book.title }}">
+        <mat-card-content>
+          <div class="d-flex justify-content-between">
+            <p><span>Género: <span>{{book.genre}}</span></span></p>
+            <p><span>Fecha: <span>{{book.publicationDate}}</span></span></p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <app-button
+            [title]="'Editar'"
+            buttonType="mat-button"
+            (buttonClick)="editBook(book)">
+          </app-button>
+          <app-button
+            [title]="'Eliminar'"
+            buttonType="mat-button"
+            (buttonClick)="ifDeleteBook(book._id)">
+          </app-button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </div>
+  <div *ngIf="listBooks.length === 0">
+    <p>No hay registros que mostrar.</p>
+  </div>
+
+  <mat-paginator [length]="total"
+    [pageSize]="limit"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageIndex]="currentPage"
+    aria-label="Select page"
+    (page)="onPageChanged($event)">
+  </mat-paginator>
+
+</div>

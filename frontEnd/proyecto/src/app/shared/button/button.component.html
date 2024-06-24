@@ -1,0 +1,31 @@
+<button *ngIf="buttonType === 'mat-button'"
+        mat-button
+        [ngClass]="class"
+        [disabled]="disabled"
+        (click)="onClick($event)">
+  {{ title }}
+</button>
+
+<button *ngIf="buttonType === 'mat-raised-button'"
+        mat-raised-button
+        [ngClass]="class"
+        [disabled]="disabled"
+        (click)="onClick($event)">
+  {{ title }}
+</button>
+
+<button *ngIf="buttonType === 'mat-stroked-button'"
+        mat-stroked-button
+        [ngClass]="class"
+        [disabled]="disabled"
+        (click)="onClick($event)">
+  {{ title }}
+</button>
+
+<button *ngIf="buttonType === 'mat-flat-button'"
+        mat-flat-button
+        [ngClass]="class"
+        [disabled]="disabled"
+        (click)="onClick($event)">
+  {{ title }}
+</button>
