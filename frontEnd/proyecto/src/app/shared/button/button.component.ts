@@ -9,7 +9,8 @@ export class ButtonComponent {
   @Input() class: string = '';
   @Input() disabled: boolean = false;
   @Input() title: string = '';
-  @Input() buttonType: 'mat-button' | 'mat-stroked-button' | 'mat-flat-button' | 'mat-raised-button' = 'mat-button';
+  @Input() icon?: string;
+  @Input() iconColor: string = 'inherit';
   @Output() buttonClick = new EventEmitter<Event>();
   constructor() { }
 

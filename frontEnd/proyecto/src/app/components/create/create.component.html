@@ -1,43 +1,41 @@
-<div class="container">
-  <h2>{{ pageTitle }} Libro</h2>
-  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="title">Título:</label>
-      <input id="title" class="form-control" formControlName="title" type="text" />
-      <div *ngIf="bookForm.get('title')?.invalid && (bookForm.get('title')?.touched)" class="text-danger">
-        Título es requerido
+<div class="container mt-5 d-flex justify-content-center">
+
+  <section class="form-body w-75">
+    <p class="secondary-title">{{ pageTitle }} Libro</p>
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
+        <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows" [style.background]="tile.color">
+          <div class="form-group grid-tile">
+            <label [for]="tile.formControlName || ''">{{ tile.label }}</label>
+            <ng-container *ngIf="!tile.isFileInput">
+              <input [id]="tile.formControlName || ''" class="form-control" [formControlName]="tile.formControlName || ''" type="text" />
+              <div *ngIf="bookForm.get(tile.formControlName || '')?.invalid && bookForm.get(tile.formControlName || '')?.touched" class="text-danger">
+                {{ tile.errorMessage }}
+              </div>
+
+            </ng-container>
+            <ng-container *ngIf="tile.isFileInput">
+              <input id="image" type="file" (change)="onFileSelected($event)" class="form-control" />
+            </ng-container>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <div class="d-flex justify-content-end">
+        <app-button
+          [title]="'Atrás'" 
+          [ngClass]="btnSecondary"
+          (buttonClick)="navigateBack()"
+        >
+        </app-button>
+        <app-button
+          [title]="'Aceptar'" 
+          [disabled]="buttonDisabled"
+          [ngClass]="btn"
+          type="submit">
+        </app-button>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="author">Autor:</label>
-      <input id="author" class="form-control" formControlName="author" type="text" />
-      <div *ngIf="bookForm.get('author')?.invalid && (bookForm.get('author')?.touched)" class="text-danger">
-        Autor es requerido
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="genre">Género:</label>
-      <input id="genre" class="form-control" formControlName="genre" type="text" />
-      <div *ngIf="bookForm.get('genre')?.invalid && (bookForm.get('genre')?.touched)" class="text-danger">
-        Género es requerido
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="publicationDate">Fecha de Publicación:</label>
-      <input id="publicationDate" class="form-control" formControlName="publicationDate" type="text" />
-      <div *ngIf="bookForm.get('publicationDate')?.invalid && (bookForm.get('publicationDate')?.touched)" class="text-danger">
-        Fecha de Publicación es requerida
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="image">Subir Imagen:</label>
-      <input id="image" type="file" (change)="onFileSelected($event)" class="form-control" />
-    </div>
-    <app-button
-      [title]="'Aceptar'" 
-      [disabled]="buttonDisabled"
-      buttonType="mat-raised-button"
-      type="submit">
-    </app-button>
-  </form>
+    </form>
+  </section>
+
+
 </div>

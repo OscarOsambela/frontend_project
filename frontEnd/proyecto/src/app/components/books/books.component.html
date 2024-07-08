@@ -1,73 +1,160 @@
-<div class="container mt-5">
+<mat-toolbar>
+  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button> -->
+
+  <span>
+    <img class="logo" src="../../../assets/images/bool-logo.png" alt="Logo">
+  </span>
+  <div>
+    <app-button 
+      [title]="'Todos los libros'"
+      routerLink="/all"
+      >
+    </app-button>
+  </div>
+  <span class="example-spacer"></span>
+  <div class="form-filter">
+    <form [formGroup]="filterForm" (ngSubmit)="filterBooks()" class="d-flex justify-content-evenly align-items-center">
+  
+      <!-- select sin autocompletado -->
+      <mat-form-field appearance="standard">
+        <mat-label>Rango de Años de publicación</mat-label>
+        <mat-select formControlName="publicationDate">
+          <mat-option *ngFor="let range of yearRanges" [value]="range.value">
+            {{ range.label }}
+          </mat-option>
+        </mat-select>
+        <button mat-icon-button matSuffix *ngIf="filterForm.get('publicationDate')?.value && filterForm.get('publicationDate')?.value !== 'All'" (click)="clearText('publicationDate')">
+          <mat-icon class="closeIconButton">close</mat-icon>
+        </button>
+      </mat-form-field>
+  
+  
+      <!-- select con autocompletado -->
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Búsqueda por autor</mat-label>
+        <input type="text"
+               placeholder="Buscar..."
+               matInput
+               formControlName="author"
+               autocomplete="off"
+               [matAutocomplete]="autoAuthor"
+               appUpper>
+               <button mat-icon-button matSuffix *ngIf="filterForm.get('author')?.value" (click)="clearText('author')">
+                <mat-icon class="closeIconButton">close</mat-icon>
+              </button>
+        <mat-autocomplete autoActiveFirstOption #autoAuthor="matAutocomplete">
+          <mat-option *ngFor="let author of filteredAuthors | async" [value]="author">
+            {{author}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Búsqueda por título</mat-label>
+        <input type="text"
+               placeholder="Buscar..."
+               matInput
+               formControlName="title"
+               autocomplete="off"
+               [matAutocomplete]="autoTitles">
+               <button mat-icon-button matSuffix *ngIf="filterForm.get('title')?.value" (click)="clearText('title')">
+                <mat-icon class="closeIconButton">close</mat-icon>
+              </button>
+        <mat-autocomplete autoActiveFirstOption #autoTitles="matAutocomplete">
+          <mat-option *ngFor="let title of filteredTitles | async" [value]="title">
+            {{ title }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <app-button
+        [ngClass]="btnSecondary"
+        [icon]="'search'"
+        type="submit"
+        >
+    </app-button>
+    </form>
+  </div>
+  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button> -->
+</mat-toolbar>
+
+
+
+<app-carrousel></app-carrousel>
+
+
+<div class="container mt-5 pt-5">
   <div class="d-flex justify-content-between">
-    <p class="h4">Registro de libros</p>
+    <p class="h4 main-title">Registro de libros</p>
     <app-button
       [title]="'Agregar libro'"
-      buttonType="mat-raised-button"
       routerLink="/create-book"
+      [ngClass]="btnStyle"
     >
     </app-button>
   </div>
 
-  <form [formGroup]="filterForm" (ngSubmit)="filterBooks()">
-    <label for="genre">Género:</label>
-    <mat-form-field appearance="fill">
-      <mat-label>Género</mat-label>
-      <mat-select formControlName="genre">
-        <mat-option [value]="'All'">Todos</mat-option>
-        <mat-option *ngFor="let genre of genres" [value]="genre">
-          {{ genre }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="my-5 d-flex justify-content-center">
     <app-button
-      [title]="'Buscar'"
-      buttonType="mat-raised-button"
-      type="submit">
+      *ngFor="let genre of genres"
+      [title]="genre"
+      [ngClass]="btnStyle"
+      (buttonClick)="filterByGenre(genre)"
+    >
     </app-button>
-  </form>
+  </div>
 
-  <div class="m-5" *ngIf="listBooks.length > 0">
-    <div *ngFor="let book of listBooks">
-      <mat-card class="example-card m-2">
-        <mat-card-header >
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{book.title}}</mat-card-title>
-          <mat-card-subtitle>{{book.author}}</mat-card-subtitle>
-        </mat-card-header>
-        <img *ngIf="book?.imagePath" width="100%" [src]="getImageUrl(book.imagePath)" alt="Portada del libro {{ book.title }}">
-        <mat-card-content>
-          <div class="d-flex justify-content-between">
-            <p><span>Género: <span>{{book.genre}}</span></span></p>
-            <p><span>Fecha: <span>{{book.publicationDate}}</span></span></p>
+<!-- show-books -->
+<div class="container__show_nook">
+  <div class="row">
+    <div class="col-md-12 slider-fixed">
+      <div class="overlay"></div>
+      <!-- Slider -->
+      <div [ngClass]="{'slider': listBooks.length > 1, 'slider-single': listBooks.length === 1}" #slider>
+        <div *ngFor="let book of listBooks" class="position-relative">
+          <app-button
+              [ngClass]="buttonView"
+              [icon]="'wysiwyg'"
+              [iconColor]="'#fff'"
+              (buttonClick)="openDialog(book)"
+              >
+          </app-button>
+          <img
+          [src]="book?.imagePath ? getImageUrl(book.imagePath) : 'assets/images/image_inavailable'"
+          alt="Portada del libro {{ book.title || 'Default Title' }}"
+          appFixedSizeImage
+          width="250px"
+          height="300px">
+          <header>
+            <p class="h5">{{book.author}}</p>
+            <p class="h6">{{book.title}}</p>
+          </header>
+          <div>
+            <p class="complementary">{{book.genre}}</p>
+            <p class="complementary">{{book.publicationDate}}</p>
           </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <app-button
-            [title]="'Editar'"
-            buttonType="mat-button"
-            (buttonClick)="editBook(book)">
-          </app-button>
-          <app-button
-            [title]="'Eliminar'"
-            buttonType="mat-button"
-            (buttonClick)="ifDeleteBook(book._id)">
-          </app-button>
-        </mat-card-actions>
-      </mat-card>
-
+        </div>
+      </div>
+      <!-- control arrows -->
+      <div class="prev" (click)="prev()">
+        <mat-icon aria-hidden="true">chevron_left</mat-icon>
+      </div>
+      <div class="next" (click)="next()">
+        <mat-icon aria-hidden="true">chevron_right</mat-icon>
+      </div>
     </div>
   </div>
-  <div *ngIf="listBooks.length === 0">
-    <p>No hay registros que mostrar.</p>
-  </div>
+</div>
+ <!-- fin show book -->
+  
+<!-- <div *ngIf="listBooks.length === 0" class="no-available">
+  <img src="../../../assets/images/books.png"/>
+  <p class="h6">No hay información que mostrar.</p>
+</div> -->
 
-  <mat-paginator [length]="total"
-    [pageSize]="limit"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    [pageIndex]="currentPage"
-    aria-label="Select page"
-    (page)="onPageChanged($event)">
-  </mat-paginator>
+
 
 </div>

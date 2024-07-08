@@ -5,6 +5,7 @@ export class Book {
   genre: string;
   publicationDate: number;
   imagePath: string;
+  fragment: string;
 
   constructor(
     _id: string = '',
@@ -12,7 +13,8 @@ export class Book {
     author: string = '',
     genre: string = '',
     publicationDate: number = 0,
-    imagePath: string = '' 
+    imagePath: string = '',
+    fragment: string = '' 
   ) {
     this._id = _id;
     this.title = title;
@@ -20,5 +22,6 @@ export class Book {
     this.genre = genre;
     this.publicationDate = publicationDate;
     this.imagePath = imagePath;
+    this.fragment = fragment
   }
 }

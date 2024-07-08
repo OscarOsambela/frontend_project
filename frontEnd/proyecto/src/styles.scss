@@ -1,4 +1,127 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap";
+@import 'ngx-toastr/toastr';
+@import '../src/app/styles/paletteSCSS.scss';
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@function hex-to-rgba($color, $alpha) {
+  @return rgba(
+    red($color),
+    green($color),
+    blue($color),
+    $alpha
+  );
+}
+
+html, body
+  {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+.btn-style{
+    position: relative;
+    width: auto;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background-color: $main-bg;
+    color: $main-color;
+    padding: 0;
+    margin: 0 6px;
+    border-radius: 3px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: system-ui;
+    border: 2px solid $main-color;
+    transition: 100ms ease;
+    box-shadow: 4px 4px 0 0 $main-color;
+
+  }
+
+  .btn-style .btn-style-disabled {
+    background-color: grey;
+    color: lightgrey;
+    cursor: not-allowed;
+    border-color: grey;
+    box-shadow: none;
+  }
+
+  .btn-style--secondary {
+    background-color: $main-bg-secondary;
+    color: $main-bg-secondary;
+  }
+
+
+  .btn-style:hover {
+    box-shadow: 2px 2px 0 0 $main-color;
+  }
+
+  .btn-style:active {
+    transition: 50ms ease;
+    box-shadow:  0 0 0 0 $main-color;
+  }
+
+  .btn-style:focus-visible {
+    outline: 0;
+    --btn-style-color: #002cc8;
+  }
+
+  .btn-style:focus-visible::after {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 12px);
+    transform: translateX(-50%);
+    content: "\21E7";
+    animation: float .5s ease-in-out infinite;
+  }
+
+  .button-view{
+    position: absolute;
+    right: 0;
+    margin-right: 50px;
+    top: 10px;
+    background: rgba($secondary-gray, 51%);
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateX(-50%) translatey(0px);
+    }
+    50% {
+      transform: translateX(-50%) translatey(-6px);
+    }
+    100% {
+      transform: translateX(-50%) translatey(0px);
+    }
+  }
+
+
+.main-title{
+  color: $main-bg;
+  text-shadow: 3px 3px 1px $main-color ;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.secondary-title{
+  color: $main-color;
+  font-size: 1.8rem;
+}
+
+.form-body{
+  border: 2px solid $main-color;
+  margin: 30px 0;
+  padding: 15px;
+  border-radius: 15px;
+}

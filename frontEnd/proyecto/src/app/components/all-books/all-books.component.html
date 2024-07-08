@@ -1,0 +1,55 @@
+<!-- <form [formGroup]="filterForm" (ngSubmit)="filterBooks()" class="d-flex justify-content-evenly align-items-center">
+  
+ 
+</form> -->
+
+<mat-grid-list [cols]="cols" [rowHeight]="rowHeight" *ngIf="listAllBooks.length > 0">
+
+  <mat-grid-tile *ngFor="let book of listAllBooks">
+    <article>
+        <header>
+          <p class="h5">{{book.title}}</p>
+          <p class="h6">{{book.author}}</p>
+        </header>
+        <div class="d-flex justify-content-center px-3">
+          <img
+            [src]="book?.imagePath ? getImageUrl(book.imagePath) : 'assets/images/image_inavailable'"
+            alt="Portada del libro {{ book.title || 'Default Title' }}"
+            appFixedSizeImage
+            width="230px"
+            height="260px">
+        </div>
+
+        <div class="d-flex justify-content-around my-3">
+          <p class="h6">{{book.genre}}</p>
+          <p class="h6">{{book.publicationDate}}</p>
+        </div>
+        <div class="d-flex justify-content-around">
+          <app-button
+            [ngClass]="btnStyle"
+            (buttonClick)="editBook(book)"
+            [icon]="'edit'"
+            >
+          </app-button>
+          <app-button
+            [ngClass]="btnStyle"
+            (buttonClick)="ifDeleteBook(book._id)"
+            [icon]="'delete'">
+          </app-button>
+        </div>
+    </article>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<div *ngIf="listAllBooks.length === 0" class="no-available">
+  <img src="../../../assets/images/books.png"/>
+  <p class="h6">No hay información que mostrar.</p>
+</div>
+
+<mat-paginator [length]="total"
+[pageSize]="limit"
+[pageSizeOptions]="[10,25,100]"
+[pageIndex]="currentPage"
+aria-label="Select page"
+(page)="onPageChanged($event)">
+</mat-paginator> 

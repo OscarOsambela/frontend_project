@@ -1,0 +1,253 @@
+@import '../../styles/paletteSCSS.scss';
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+.logo{
+  width: 7rem;
+  margin: 0 50px;
+}
+article {
+  font-family: sans-serif;
+  line-height: 1.5;
+  background-color: #fdfce5;
+  color: #4a403a;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 3px solid #f9975d;
+  border-bottom: 3px solid #f9975d;
+}
+
+p{
+  margin-bottom: 0
+}
+
+header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  &:after {
+    font-size: 10em;
+    color: rgba(#f9975d, 0.25);
+    position: absolute;
+    z-index: -1;
+    line-height: 0.75;
+    top: 0;
+  }
+
+  p.h5 {
+    color: $secondary-gray;
+    display: block;
+    font-family: "Josefin Sans", serif;
+    font-weight: 400;
+    font-size: 12px;
+    margin: 10px;
+    text-transform: uppercase
+  }
+
+  p.h6 {
+    width: 250px;
+    white-space: pre-line;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 800;
+    font-size: 25px;
+  }
+}
+
+.complementary{
+  font-size: 16px;
+  font-family: "Cormorant Garamond", serif;
+  color: $main-color;
+  font-weight: 500;
+}
+
+.no-available{
+  display: block;
+  text-align: center;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, .4);
+  padding: 2rem;
+  margin-bottom: 1rem;
+  border-radius: 25px;
+}
+
+
+
+.closeIconButton{
+  font-size: 15px;
+  color: $main-gray;
+}
+
+.no-available{
+  img{
+    width: 15rem;
+    margin: 20px;
+  }
+  p{
+    color: $main-color;
+    font-size: 2rem;
+  }
+}
+
+//mat-angular
+.mat-toolbar-single-row {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  height: 80px;
+}
+
+.form-filter form mat-form-field{
+  font-size: 0.8rem;
+}
+
+mat-form-field{
+  margin: 0 1.5rem
+}
+
+mat-grid-tile,
+mat-grid-list{
+  height: calc(550px)!important;
+}
+
+
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  .carousel-inner {
+    display: flex;
+    transition: transform 3s ease;
+  }
+
+  .carousel-item {
+    min-width: 100%;
+    transition: opacity 0.5s ease;
+    opacity: 0;
+  }
+
+  .carousel-item.active {
+    opacity: 1;
+    transition-delay: 0.2s;
+  }
+
+  img {
+    width: 91rem;
+    display: block;
+    margin: 30px;
+  }
+
+  .carousel-caption {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: scale(4);
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1;
+  }
+
+  .carousel-control-prev {
+    left: 60px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 16px;
+  }
+
+  .carousel-control-next {
+    right: 60px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 16px;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    display: none; // Ocultamos el contenido de texto
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}
+
+//show books
+.slider-fixed{
+  text-align: center;
+}
+
+.container__show_nook {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.img__show_book {
+  width: 100%;
+  height: auto;
+  padding: 5px;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slider-single {
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.slider div {
+  flex: 0 0 calc(100% / 4);
+}
+
+.prev, .next {
+  color: #999;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}

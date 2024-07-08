@@ -1,9 +1,24 @@
 <h2 mat-dialog-title>{{data.title}}</h2>
+<h2 *ngIf="data.tag === 'Description'">{{data.book.title}}</h2>
+<h6 *ngIf="data.tag === 'Description'">{{data.book.author}}</h6>
+
 <mat-dialog-content class="mat-typography">
-
-
   <p *ngIf="data.tag === 'Delete'">{{data.content}}</p>
+  <div [ngClass]="data.book?.fragment ? 'd-flex justify-content-around' : 'd-block text-center'">
+    <img 
+    *ngIf="data.tag === 'Description'"
+    [src]="data.book?.imagePath ? getImageUrl(data.book.imagePath) : 'assets/images/image_inavailable'"
+    alt="Portada del libro {{ data.book.title || 'Default Title' }}"
+    appFixedSizeImage
+    width="250px"
+    height="300px">
+    <div *ngIf="data.tag === 'Description'">
+      <p class="text-justify">
+        {{data.book?.fragment}}
+      </p>
+    </div>
 
+  </div>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end" *ngIf="data.tag === 'Delete'">

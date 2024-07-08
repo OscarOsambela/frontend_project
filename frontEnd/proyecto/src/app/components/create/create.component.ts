@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Book } from 'src/app/models/books.model';
 import { BookDataService } from 'src/app/services/book-data.service';
 import { BooksService } from 'src/app/services/books.service';
 import { firstValueFrom } from 'rxjs';
+import { Tile } from 'src/app/models/tiles.model';
 
 @Component({
   selector: 'app-create',
@@ -17,7 +17,20 @@ export class CreateComponent implements OnInit {
   pageTitle: string = '';
   book: any;
   selectedFile: File | null = null;
-  
+  btn: string = 'btn'; 
+  btnSecondary: string[] = ['btn', 'btn--secondary', 'mx-3']; 
+  btnDisabled: string = 'btn-disabled'
+  tiles: Tile[] = [
+    {text: 'Título', cols: 1, rows: 1, color: '', formControlName: 'title', label: 'Título:', errorMessage: 'Título es requerido'},
+    {text: 'Autor', cols: 1, rows: 1, color: '', formControlName: 'author', label: 'Autor:', errorMessage: 'Autor es requerido'},
+    {text: 'Género', cols: 1, rows: 1, color: '', formControlName: 'genre', label: 'Género:', errorMessage: 'Género es requerido'},
+    {text: 'Fecha de Publicación', cols:1, rows: 1, color: '', formControlName: 'publicationDate', label: 'Fecha de Publicación:', errorMessage: 'Fecha de Publicación es requerida'},
+    {text: 'Fragmento', cols: 1, rows: 1, color: '', formControlName: 'fragment', label: 'Fragmento:', errorMessage: null},  
+    {text: 'Subir Imagen', cols: 1, rows: 1, color: '', formControlName: null, label: 'Subir Imagen:', errorMessage: null, isFileInput: true}  
+  ]
+  cols: number = 2;
+  rowHeight: string = '100px';
+
   constructor(
     private fb: FormBuilder,
     private _booksService: BooksService,
@@ -52,6 +65,7 @@ export class CreateComponent implements OnInit {
       title: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s.,!-?¡¿&()]+$')]],
       author: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s.,!-?¡¿&()]+$')]],
       genre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s.,!-?¡¿&()]+$')]],
+      fragment: [''],
       publicationDate: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     });
     const book = this.bookDataService.getBook()
@@ -60,6 +74,7 @@ export class CreateComponent implements OnInit {
         title: book.title,
         author: book.author,
         genre: book.genre,
+        fragment: book.fragment,
         publicationDate: book.publicationDate
       })
     }
@@ -73,6 +88,7 @@ export class CreateComponent implements OnInit {
         formData.append('title', this.bookForm.get('title')?.value || '');
         formData.append('author', this.bookForm.get('author')?.value || '');
         formData.append('genre', this.bookForm.get('genre')?.value || '');
+        formData.append('fragment', this.bookForm.get('fragment')?.value || '');
         formData.append('publicationDate', this.bookForm.get('publicationDate')?.value || '');
   
         if (this.selectedFile) {
@@ -105,7 +121,7 @@ export class CreateComponent implements OnInit {
     localStorage.removeItem('bookData');
   }
 
-  private navigateBack(): void {
+  public navigateBack(): void {
     this.router.navigate(['/']);
   }
 
